@@ -7,6 +7,8 @@ export type AeroEra =
   | "hybrid-v6"
   | "ground-effect-return";
 
+export type Monocoque = "aluminum-honeycomb" | "carbon-fiber";
+
 export type Car = {
   id: string;
   year: number;
@@ -18,6 +20,25 @@ export type Car = {
   aeroEra: AeroEra;
   hybrid: boolean;
   notable: string;
+
+  // chassis
+  monocoque?: Monocoque;
+  wheelbaseMm?: number;
+  fuelTankL?: number;
+
+  // electronics
+  activeSuspension?: boolean;
+  tractionControl?: boolean;
+  semiAutoGearbox?: boolean;
+  launchControl?: boolean;
+  kers?: boolean;
+  ers?: boolean;
+
+  // hybrid-era PU detail (2014+)
+  mguKPowerKW?: number;
+  batteryDeploymentMJ?: number;
+  fuelFlowKgH?: number;
+  maxRpm?: number;
 };
 
 export const cars: Car[] = [
@@ -32,6 +53,8 @@ export const cars: Car[] = [
     aeroEra: "ground-effect-skirts",
     hybrid: false,
     notable: "Six-wheeler — four 10\" front wheels to reduce frontal area while keeping contact patch.",
+    monocoque: "aluminum-honeycomb",
+    maxRpm: 10500,
   },
   {
     id: "lotus-79-1978",
@@ -44,6 +67,8 @@ export const cars: Car[] = [
     aeroEra: "ground-effect-skirts",
     hybrid: false,
     notable: "Defined modern ground effect — venturi sidepods with sliding skirts. Andretti title.",
+    monocoque: "aluminum-honeycomb",
+    maxRpm: 11000,
   },
   {
     id: "mclaren-mp4-4-1988",
@@ -56,6 +81,9 @@ export const cars: Car[] = [
     aeroEra: "flat-bottom",
     hybrid: false,
     notable: "15 wins from 16 races. Last turbo-era car before the 1989 NA-only mandate.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: false,
+    maxRpm: 12500,
   },
   {
     id: "williams-fw14b-1992",
@@ -68,6 +96,11 @@ export const cars: Car[] = [
     aeroEra: "flat-bottom",
     hybrid: false,
     notable: "Active suspension, traction control, semi-auto gearbox. Computers won the race.",
+    monocoque: "carbon-fiber",
+    activeSuspension: true,
+    tractionControl: true,
+    semiAutoGearbox: true,
+    maxRpm: 14500,
   },
   {
     id: "ferrari-f2004-2004",
@@ -80,6 +113,12 @@ export const cars: Car[] = [
     aeroEra: "high-downforce-v10",
     hybrid: false,
     notable: "Apex of the V10 era. 19,000 rpm. Lap records that stood for over a decade.",
+    monocoque: "carbon-fiber",
+    activeSuspension: false,
+    tractionControl: true,
+    semiAutoGearbox: true,
+    launchControl: false,
+    maxRpm: 19000,
   },
   {
     id: "brawn-bgp001-2009",
@@ -92,6 +131,10 @@ export const cars: Car[] = [
     aeroEra: "stepped-floor",
     hybrid: false,
     notable: "Double diffuser loophole. Constructors' title from a team that nearly didn't race.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    kers: false,
+    maxRpm: 18000,
   },
   {
     id: "redbull-rb9-2013",
@@ -104,6 +147,10 @@ export const cars: Car[] = [
     aeroEra: "blown-diffuser",
     hybrid: false,
     notable: "Last V8 champion. Exhaust-blown diffuser refined to its peak by Newey.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    kers: true,
+    maxRpm: 18000,
   },
   {
     id: "mercedes-w05-2014",
@@ -116,6 +163,13 @@ export const cars: Car[] = [
     aeroEra: "hybrid-v6",
     hybrid: true,
     notable: "First year of the hybrid V6 PU regs. Split turbo (compressor front, turbine rear).",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    ers: true,
+    mguKPowerKW: 120,
+    batteryDeploymentMJ: 4,
+    fuelFlowKgH: 100,
+    maxRpm: 15000,
   },
   {
     id: "mercedes-w11-2020",
@@ -128,6 +182,13 @@ export const cars: Car[] = [
     aeroEra: "hybrid-v6",
     hybrid: true,
     notable: "DAS (dual-axis steering) front-toe adjustment. Considered one of the best cars ever.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    ers: true,
+    mguKPowerKW: 120,
+    batteryDeploymentMJ: 4,
+    fuelFlowKgH: 100,
+    maxRpm: 15000,
   },
   {
     id: "redbull-rb18-2022",
@@ -140,6 +201,13 @@ export const cars: Car[] = [
     aeroEra: "ground-effect-return",
     hybrid: true,
     notable: "First car of the ground-effect-return regs. Verstappen runaway after early bouncing.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    ers: true,
+    mguKPowerKW: 120,
+    batteryDeploymentMJ: 4,
+    fuelFlowKgH: 100,
+    maxRpm: 15000,
   },
   {
     id: "redbull-rb19-2023",
@@ -152,5 +220,16 @@ export const cars: Car[] = [
     aeroEra: "ground-effect-return",
     hybrid: true,
     notable: "21 wins from 22 races. Most dominant single-season car in F1 history.",
+    monocoque: "carbon-fiber",
+    semiAutoGearbox: true,
+    ers: true,
+    mguKPowerKW: 120,
+    batteryDeploymentMJ: 4,
+    fuelFlowKgH: 100,
+    maxRpm: 15000,
   },
 ];
+
+export function getCarById(id: string): Car | undefined {
+  return cars.find((c) => c.id === id);
+}
