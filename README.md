@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# model-f1
 
-## Getting Started
+A study of Formula 1 car evolution across generations — aerodynamics, powertrain, chassis, electronics.
 
-First, run the development server:
+## What this is
+
+A growing dataset and visualization layer for era-defining F1 cars (1970s ground-effect pioneers through the current hybrid + ground-effect era). The goal is to make the engineering arc of F1 legible: what changed, when, why, and how much.
+
+## Dimensions tracked
+
+- **Aerodynamics** — downforce era (skirts → flat bottom → ground effect return), drag/downforce ratios, ride heights, frontal area
+- **Powertrain** — engine config, displacement, hp, fuel flow limits, hybrid deployment (MGU-K, MGU-H)
+- **Energy storage** — battery capacity, deployment per lap, recovery efficiency
+- **Chassis** — minimum weight, wheelbase, dimensions, safety regulations
+- **Tires & suspension** — compound era, active vs passive, anti-dive/anti-squat trends
+
+## Roadmap
+
+1. **Seed dataset** — 10–15 era-defining cars with consistent spec schema
+2. **Compare view** — side-by-side spec comparison between any two cars
+3. **Timeline charts** — spec evolution (weight, hp, downforce) over decades
+4. **Regulation overlay** — annotate where rule changes drove design shifts
+5. **Predictive layer** — given specs, estimate where a car would qualify vs. its era peers
+6. **Python `analysis/`** — Jupyter notebooks for statistical / aero modeling work
+
+## Stack
+
+- Next.js 16 (App Router) + TypeScript + Tailwind 4
+- Data as typed TS modules to start; migrate to a DB once the schema settles
+
+## Local dev
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open <http://localhost:3000>.
