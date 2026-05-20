@@ -27,6 +27,7 @@ type Props = {
 };
 
 const eraFill: Record<string, string> = {
+  "pre-ground-effect": "#f1f5f9",
   "ground-effect-skirts": "#fef3c7",
   "flat-bottom": "#e0e7ff",
   "stepped-floor": "#fce7f3",

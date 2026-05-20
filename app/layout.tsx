@@ -44,6 +44,9 @@ export default function RootLayout({
               <Link href="/timeline" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 Timeline
               </Link>
+              <Link href="/powerunits" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                Power units
+              </Link>
             </div>
           </div>
         </nav>

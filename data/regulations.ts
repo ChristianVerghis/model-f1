@@ -105,6 +105,7 @@ export type AeroEraSpan = {
 };
 
 export const aeroEraSpans: AeroEraSpan[] = [
+  { era: "pre-ground-effect", startYear: 1960, endYear: 1976, label: "Pre-ground-effect" },
   { era: "ground-effect-skirts", startYear: 1977, endYear: 1982, label: "Ground effect (skirts)" },
   { era: "flat-bottom", startYear: 1983, endYear: 1994, label: "Flat bottom" },
   { era: "stepped-floor", startYear: 1995, endYear: 2008, label: "Stepped floor" },
