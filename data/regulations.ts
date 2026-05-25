@@ -102,14 +102,64 @@ export type AeroEraSpan = {
   startYear: number;
   endYear: number;
   label: string;
+  description: string;
 };
 
 export const aeroEraSpans: AeroEraSpan[] = [
-  { era: "pre-ground-effect", startYear: 1960, endYear: 1976, label: "Pre-ground-effect" },
-  { era: "ground-effect-skirts", startYear: 1977, endYear: 1982, label: "Ground effect (skirts)" },
-  { era: "flat-bottom", startYear: 1983, endYear: 1994, label: "Flat bottom" },
-  { era: "stepped-floor", startYear: 1995, endYear: 2008, label: "Stepped floor" },
-  { era: "blown-diffuser", startYear: 2009, endYear: 2013, label: "Blown diffuser + KERS" },
-  { era: "hybrid-v6", startYear: 2014, endYear: 2021, label: "Hybrid V6" },
-  { era: "ground-effect-return", startYear: 2022, endYear: 2025, label: "Ground effect return" },
+  {
+    era: "pre-ground-effect",
+    startYear: 1960,
+    endYear: 1976,
+    label: "Pre-ground-effect",
+    description:
+      "Front and rear wings appeared in 1968 but the floor stayed flat. Cars relied on slick mechanical grip, fat slicks, and (briefly) high-mounted strut wings with terrifying failure modes that prompted the FIA to limit wing height by 1969. The Cosworth DFV becomes the universal customer engine. The era ends when Colin Chapman figures out venturi tunnels.",
+  },
+  {
+    era: "ground-effect-skirts",
+    startYear: 1977,
+    endYear: 1982,
+    label: "Ground effect (skirts)",
+    description:
+      "Lotus 79 establishes the principle: shape the underfloor as an inverted wing, seal the sides with sliding skirts, and the car gets sucked to the road. Cornering speeds rise faster than safety can keep up. The Brabham BT46B fan car (1978) takes the idea to its logical extreme. The FIA bans skirts, then mandates flat bottoms — but not before the turbo arms race compounds the danger.",
+  },
+  {
+    era: "flat-bottom",
+    startYear: 1983,
+    endYear: 1994,
+    label: "Flat bottom",
+    description:
+      "FIA-mandated flat reference plane under the car kills ground effect. Aero work shifts to wings, sidepods, and the diffuser. Carbon-fiber monocoques become standard. Active suspension (FW14B/FW15C), traction control, and semi-auto gearboxes turn the era into a software race — all banned for 1994 after Senna's death at Imola.",
+  },
+  {
+    era: "stepped-floor",
+    startYear: 1995,
+    endYear: 2008,
+    label: "Stepped floor",
+    description:
+      "Post-Imola, the FIA adds a 50mm step in the floor to cut downforce. V10s become dominant (2.4L V8s from 2006). Aero refinement explodes — every bargeboard, winglet, and chimney earns its wind-tunnel hours. Schumacher's Ferrari dynasty defines the decade; F2004 sets lap records that survive into the hybrid era.",
+  },
+  {
+    era: "blown-diffuser",
+    startYear: 2009,
+    endYear: 2013,
+    label: "Blown diffuser + KERS",
+    description:
+      "Aero overhaul: slick tires return, wings narrowed/widened in opposite directions, double diffusers and blown floors emerge as the dominant performance tricks. KERS (60 kW / 400 kJ) introduced 2009, mandatory by 2011. Red Bull/Newey perfect exhaust-blown floors and take four consecutive doubles.",
+  },
+  {
+    era: "hybrid-v6",
+    startYear: 2014,
+    endYear: 2021,
+    label: "Hybrid V6",
+    description:
+      "1.6L V6 turbo + MGU-K (120 kW) + MGU-H (unlimited harvest) + 4 MJ/lap battery deployment + 100 kg/h fuel flow. Mercedes' split-turbo concept catches everyone else off guard and the team wins eight straight constructors' titles. By 2017 the dominant PUs claim >50% thermal efficiency on the dyno.",
+  },
+  {
+    era: "ground-effect-return",
+    startYear: 2022,
+    endYear: 2025,
+    label: "Ground effect return",
+    description:
+      "Venturi tunnels return under the floor; bargeboards banned; wheel covers, simpler front wings. Explicit goal: cars can follow each other in dirty air. Porpoising dominates the first season. Red Bull's RB19 produces the most dominant single-season car ever (21 wins from 22).",
+  },
 ];

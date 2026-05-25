@@ -7,7 +7,6 @@ const eraColor: Record<string, string> = {
   "ground-effect-skirts": "bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200",
   "flat-bottom": "bg-indigo-100 text-indigo-900 dark:bg-indigo-950 dark:text-indigo-200",
   "stepped-floor": "bg-pink-100 text-pink-900 dark:bg-pink-950 dark:text-pink-200",
-  "high-downforce-v10": "bg-rose-100 text-rose-900 dark:bg-rose-950 dark:text-rose-200",
   "blown-diffuser": "bg-red-100 text-red-900 dark:bg-red-950 dark:text-red-200",
   "hybrid-v6": "bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200",
   "ground-effect-return": "bg-cyan-100 text-cyan-900 dark:bg-cyan-950 dark:text-cyan-200",

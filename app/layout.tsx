@@ -34,12 +34,18 @@ export default function RootLayout({
             <Link href="/" className="font-mono text-sm tracking-tight">
               model-f1
             </Link>
-            <div className="flex gap-6 text-sm">
+            <div className="flex gap-5 text-sm">
               <Link href="/" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 Cars
               </Link>
+              <Link href="/eras" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                Eras
+              </Link>
               <Link href="/compare" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 Compare
+              </Link>
+              <Link href="/scatter" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                Scatter
               </Link>
               <Link href="/timeline" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 Timeline
