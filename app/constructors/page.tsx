@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { uniqueConstructors } from "@/lib/constructors";
 import { cars } from "@/data/cars";
+import { Sparkline } from "./sparkline";
 
 export default function ConstructorsIndexPage() {
   const constructors = uniqueConstructors();
@@ -21,11 +22,16 @@ export default function ConstructorsIndexPage() {
 
       <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {constructors.map((c) => {
-          const years = cars
+          const ownCars = cars
             .filter((car) => car.constructor === c.name)
-            .map((car) => car.year)
-            .sort((a, b) => a - b);
+            .sort((a, b) => a.year - b.year);
+          const points = ownCars.map((car) => ({ year: car.year, hp: car.enginePowerHp }));
+          const years = ownCars.map((car) => car.year);
           const span = years.length > 1 ? `${years[0]} – ${years.at(-1)}` : `${years[0]}`;
+          const hpRange = ownCars.length
+            ? `${Math.min(...ownCars.map((car) => car.enginePowerHp))} – ${Math.max(...ownCars.map((car) => car.enginePowerHp))} hp`
+            : "";
+
           return (
             <li key={c.slug}>
               <Link
@@ -39,6 +45,10 @@ export default function ConstructorsIndexPage() {
                   </span>
                 </div>
                 <p className="text-xs text-zinc-500 mt-1 font-mono">{span}</p>
+                <div className="mt-3 flex items-end justify-between gap-3">
+                  <p className="text-xs text-zinc-500 tabular-nums">{hpRange}</p>
+                  <Sparkline points={points} />
+                </div>
               </Link>
             </li>
           );
