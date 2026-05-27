@@ -18,7 +18,15 @@ export default function ErasIndexPage() {
   return (
     <main className="mx-auto max-w-5xl px-6 py-16 w-full">
       <header className="mb-10 border-b border-zinc-200 dark:border-zinc-800 pb-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Eras</p>
+        <div className="flex items-baseline justify-between">
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Eras</p>
+          <Link
+            href="/eras/compare"
+            className="text-xs uppercase tracking-wider text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+          >
+            compare two eras →
+          </Link>
+        </div>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">
           Seven distinct aerodynamic eras.
         </h1>

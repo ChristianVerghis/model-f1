@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cars, getCarById, type Car } from "@/data/cars";
 import { aeroEraSpans, regulations } from "@/data/regulations";
+import { carRankInEra } from "@/lib/era-stats";
+import { InEraRanks } from "./in-era-ranks";
 
 type Params = Promise<{ id: string }>;
 
@@ -60,6 +62,7 @@ export default async function CarPage({ params }: { params: Params }) {
   const eraRegs = regulations.filter(
     (r) => era && r.year >= era.startYear && r.year <= era.endYear,
   );
+  const inEra = carRankInEra(car);
 
   const powerToWeight = +(car.enginePowerHp / car.weightKg).toFixed(3);
 
@@ -135,6 +138,23 @@ export default async function CarPage({ params }: { params: Params }) {
           )}
         </section>
       </div>
+
+      {inEra && inEra.total > 1 ? (
+        <section className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+          <div className="flex items-baseline justify-between mb-5">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-zinc-500">
+              Where this car sits in its era
+            </h2>
+            <Link
+              href={`/eras/${inEra.era.era}`}
+              className="text-xs uppercase tracking-wider text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+            >
+              {inEra.era.label} →
+            </Link>
+          </div>
+          <InEraRanks total={inEra.total} ranks={inEra.ranks} />
+        </section>
+      ) : null}
 
       <nav className="mt-16 pt-6 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-2 gap-6">
         {prev ? (
