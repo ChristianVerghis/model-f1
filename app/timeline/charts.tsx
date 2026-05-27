@@ -17,6 +17,7 @@ type DataPoint = {
   enginePowerHp: number;
   weightKg: number;
   powerToWeight: number;
+  powerPerLiter?: number;
   label: string;
 };
 
@@ -66,7 +67,7 @@ function ChartFrame({
 }: {
   title: string;
   data: DataPoint[];
-  dataKey: "enginePowerHp" | "weightKg" | "powerToWeight";
+  dataKey: "enginePowerHp" | "weightKg" | "powerToWeight" | "powerPerLiter";
   unit: string;
   aeroEras: AeroEraSpan[];
   regulations: Regulation[];
@@ -152,6 +153,14 @@ export function TimelineCharts({ data, regulations, aeroEras }: Props) {
         data={data}
         dataKey="powerToWeight"
         unit="hp/kg"
+        aeroEras={aeroEras}
+        regulations={regulations}
+      />
+      <ChartFrame
+        title="Power per liter (hp/L) — engineering vs. regulation"
+        data={data.filter((d) => d.powerPerLiter !== undefined)}
+        dataKey="powerPerLiter"
+        unit="hp/L"
         aeroEras={aeroEras}
         regulations={regulations}
       />
