@@ -3,17 +3,24 @@ import { join } from "node:path";
 import { cars } from "../data/cars";
 import { powerUnits } from "../data/powerunits";
 import { aeroEraSpans, regulations } from "../data/regulations";
+import { carResults } from "../data/results";
 
 const outDir = join(import.meta.dirname, "..", "analysis", "data");
 mkdirSync(outDir, { recursive: true });
 
-const enrichedCars = cars.map((c) => ({
-  ...c,
-  powerToWeight: +(c.enginePowerHp / c.weightKg).toFixed(4),
-  powerPerLiter: c.engineDisplacementL
-    ? +(c.enginePowerHp / c.engineDisplacementL).toFixed(2)
-    : null,
-}));
+const enrichedCars = cars.map((c) => {
+  const r = carResults[c.id] ?? {};
+  return {
+    ...c,
+    powerToWeight: +(c.enginePowerHp / c.weightKg).toFixed(4),
+    powerPerLiter: c.engineDisplacementL
+      ? +(c.enginePowerHp / c.engineDisplacementL).toFixed(2)
+      : null,
+    wonDrivers: r.wonDrivers ?? false,
+    wonConstructors: r.wonConstructors ?? false,
+    wins: r.wins ?? null,
+  };
+});
 
 writeFileSync(join(outDir, "cars.json"), JSON.stringify(enrichedCars, null, 2));
 writeFileSync(join(outDir, "power-units.json"), JSON.stringify(powerUnits, null, 2));

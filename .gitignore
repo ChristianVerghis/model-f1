@@ -42,3 +42,6 @@ next-env.d.ts
 
 # generated analysis data (regenerate with `npm run export-data`)
 /analysis/data/
+
+# Python script outputs (regenerate with `uv run analysis/<script>.py`)
+/analysis/out/

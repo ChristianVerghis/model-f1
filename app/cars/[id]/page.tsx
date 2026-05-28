@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { cars, getCarById, type Car } from "@/data/cars";
 import { aeroEraSpans, regulations } from "@/data/regulations";
+import { getResults } from "@/data/results";
 import { carRankInEra } from "@/lib/era-stats";
 import { InEraRanks } from "./in-era-ranks";
 
@@ -63,6 +64,7 @@ export default async function CarPage({ params }: { params: Params }) {
     (r) => era && r.year >= era.startYear && r.year <= era.endYear,
   );
   const inEra = carRankInEra(car);
+  const results = getResults(car.id);
 
   const powerToWeight = +(car.enginePowerHp / car.weightKg).toFixed(3);
 
@@ -76,9 +78,30 @@ export default async function CarPage({ params }: { params: Params }) {
         <p className="text-xs uppercase tracking-[0.2em] text-zinc-500 font-mono">
           {car.year} · {eraLabel(car.aeroEra)}
         </p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          {car.constructor} {car.chassis}
-        </h1>
+        <div className="mt-3 flex flex-wrap items-baseline gap-3">
+          <h1 className="text-4xl font-semibold tracking-tight">
+            {car.constructor} {car.chassis}
+          </h1>
+          {results.wonDrivers || results.wonConstructors || results.wins ? (
+            <div className="flex flex-wrap gap-2">
+              {results.wonDrivers ? (
+                <span className="inline-block rounded-full px-2.5 py-1 text-[10px] uppercase tracking-wider bg-amber-100 text-amber-900 dark:bg-amber-950 dark:text-amber-200">
+                  Drivers&apos; title
+                </span>
+              ) : null}
+              {results.wonConstructors ? (
+                <span className="inline-block rounded-full px-2.5 py-1 text-[10px] uppercase tracking-wider bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200">
+                  Constructors&apos; title
+                </span>
+              ) : null}
+              {results.wins ? (
+                <span className="inline-block rounded-full px-2.5 py-1 text-[10px] uppercase tracking-wider bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 tabular-nums">
+                  {results.wins} wins
+                </span>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
         <p className="mt-4 max-w-2xl text-zinc-600 dark:text-zinc-400 italic">{car.notable}</p>
       </header>
 

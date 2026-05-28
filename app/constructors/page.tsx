@@ -6,6 +6,15 @@ import { Sparkline } from "./sparkline";
 export default function ConstructorsIndexPage() {
   const constructors = uniqueConstructors();
 
+  const allYears = cars.map((c) => c.year);
+  const allHp = cars.map((c) => c.enginePowerHp);
+  const bounds = {
+    minYear: Math.min(...allYears),
+    maxYear: Math.max(...allYears),
+    minHp: Math.min(...allHp),
+    maxHp: Math.max(...allHp),
+  };
+
   return (
     <main className="mx-auto max-w-5xl px-6 py-16 w-full">
       <header className="mb-10 border-b border-zinc-200 dark:border-zinc-800 pb-6">
@@ -17,6 +26,10 @@ export default function ConstructorsIndexPage() {
           Every car from a single constructor told as one chronological story —
           how the same name produced an aluminum-honeycomb DFV runner and a 1000 hp
           hybrid ground-effect car forty years apart.
+        </p>
+        <p className="mt-2 text-xs text-zinc-500">
+          Sparklines use a shared scale: {bounds.minYear}–{bounds.maxYear} on the x-axis,
+          {" "}{bounds.minHp}–{bounds.maxHp} hp on the y-axis, so trajectories are directly comparable.
         </p>
       </header>
 
@@ -47,7 +60,7 @@ export default function ConstructorsIndexPage() {
                 <p className="text-xs text-zinc-500 mt-1 font-mono">{span}</p>
                 <div className="mt-3 flex items-end justify-between gap-3">
                   <p className="text-xs text-zinc-500 tabular-nums">{hpRange}</p>
-                  <Sparkline points={points} />
+                  <Sparkline points={points} bounds={bounds} />
                 </div>
               </Link>
             </li>

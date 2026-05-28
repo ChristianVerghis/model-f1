@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { Car } from "@/data/cars";
 import type { AeroEraSpan } from "@/data/regulations";
+import type { Result } from "@/data/results";
 
 const eraColor: Record<string, string> = {
   "pre-ground-effect": "bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
@@ -19,13 +20,15 @@ type Props = {
   cars: Car[];
   eras: AeroEraSpan[];
   constructors: string[];
+  results: Record<string, Result>;
 };
 
-export function CarGallery({ cars, eras, constructors }: Props) {
+export function CarGallery({ cars, eras, constructors, results }: Props) {
   const [query, setQuery] = useState("");
   const [era, setEra] = useState<string>("");
   const [constructor, setConstructor] = useState<string>("");
   const [hybridOnly, setHybridOnly] = useState(false);
+  const [championsOnly, setChampionsOnly] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -33,13 +36,17 @@ export function CarGallery({ cars, eras, constructors }: Props) {
       if (era && c.aeroEra !== era) return false;
       if (constructor && c.constructor !== constructor) return false;
       if (hybridOnly && !c.hybrid) return false;
+      if (championsOnly) {
+        const r = results[c.id];
+        if (!r || (!r.wonDrivers && !r.wonConstructors)) return false;
+      }
       if (q) {
         const hay = `${c.year} ${c.constructor} ${c.chassis} ${c.engine} ${c.notable}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
     });
-  }, [cars, query, era, constructor, hybridOnly]);
+  }, [cars, query, era, constructor, hybridOnly, championsOnly, results]);
 
   const eraLabel = (key: string) =>
     eras.find((e) => e.era === key)?.label ?? key.replace(/-/g, " ");
@@ -49,8 +56,9 @@ export function CarGallery({ cars, eras, constructors }: Props) {
     setEra("");
     setConstructor("");
     setHybridOnly(false);
+    setChampionsOnly(false);
   };
-  const anyActive = query !== "" || era !== "" || constructor !== "" || hybridOnly;
+  const anyActive = query !== "" || era !== "" || constructor !== "" || hybridOnly || championsOnly;
 
   return (
     <section>
@@ -97,6 +105,18 @@ export function CarGallery({ cars, eras, constructors }: Props) {
         </label>
       </div>
 
+      <div className="mb-6">
+        <label className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={championsOnly}
+            onChange={(e) => setChampionsOnly(e.target.checked)}
+            className="accent-zinc-900 dark:accent-zinc-100"
+          />
+          Champions only (WDC or WCC)
+        </label>
+      </div>
+
       <div className="flex items-baseline justify-between mb-3">
         <h2 className="text-sm font-medium uppercase tracking-wider text-zinc-500">
           {filtered.length} of {cars.length} car{cars.length === 1 ? "" : "s"}
@@ -126,8 +146,14 @@ export function CarGallery({ cars, eras, constructors }: Props) {
               >
                 <span className="col-span-2 font-mono text-sm text-zinc-500">{car.year}</span>
                 <div className="col-span-4">
-                  <p className="font-medium">
+                  <p className="font-medium flex items-center gap-1.5">
                     {car.constructor} {car.chassis}
+                    {results[car.id]?.wonDrivers ? (
+                      <span title="Drivers' title" className="text-amber-600 dark:text-amber-400 text-xs leading-none">●</span>
+                    ) : null}
+                    {results[car.id]?.wonConstructors ? (
+                      <span title="Constructors' title" className="text-emerald-600 dark:text-emerald-400 text-xs leading-none">●</span>
+                    ) : null}
                   </p>
                   <p className="text-xs text-zinc-500 mt-0.5">{car.engine}</p>
                 </div>

@@ -1,34 +1,38 @@
 # analysis/
 
-Reserved for Python notebooks and statistical work that doesn't belong in the Next.js app.
+Python notebooks and statistical work that doesn't belong in the Next.js app.
 
 ## Refreshing the dataset
 
-The Next.js app is the source of truth. Run from the repo root:
+The Next.js app is the source of truth. From the repo root:
 
 ```bash
 npm run export-data
 ```
 
-That dumps four JSON files into `analysis/data/`:
+That dumps four JSON files into `analysis/data/` (gitignored — regenerate after any change to `data/*.ts`):
 
-- `cars.json` — 35 cars, each enriched with `powerToWeight` and `powerPerLiter` (null if displacement unknown)
-- `power-units.json` — 9 hybrid-era PUs with thermal-efficiency estimates
-- `regulations.json` — 12 regulation inflection points
-- `aero-eras.json` — 7 aero eras with date ranges and descriptions
+- `cars.json` — every car, enriched with `powerToWeight`, `powerPerLiter`, and outcome flags (`wonDrivers`, `wonConstructors`, `wins`)
+- `power-units.json` — hybrid-era PUs with thermal-efficiency estimates
+- `regulations.json` — regulation inflection points
+- `aero-eras.json` — aero eras with date ranges and descriptions
 
-Re-run the script after any change to `data/*.ts` in the app.
+## Running scripts
+
+Scripts use PEP 723 inline dependencies — `uv` reads the dep block at the top of the file, resolves an ephemeral venv, and runs. No global pip installs needed.
+
+```bash
+uv run analysis/01_power_per_liter.py
+```
+
+Outputs land in `analysis/out/`.
+
+## Done
+
+- **01_power_per_liter.py** — chart hp/L by year with aero-era shading and the 1989 NA-mandate marker. Confirms the central story: regulation, not engineering, capped F1. The 1984 TAG-Porsche peaked at ~500 hp/L; the 1989 ban collapses the curve back to ~200; modern hybrids only beat the late-80s number when you include MGU-K and divide by a 1.6L (vs 1.5L) displacement.
 
 ## Planned
 
-- **Pace-from-specs regression** — once the dataset reaches ~50+ cars with full aero/PU coverage, fit a model that estimates relative qualifying pace from specs alone. Compare predicted vs. actual era ranking.
-- **PU efficiency curves** — chart claimed thermal efficiency of the hybrid V6 era against fuel-flow regulations.
+- **02_pace_from_specs.py** — pace-from-specs regression. With outcome flags now in the export, target the binary `wonDrivers OR wonConstructors` as a proxy for relative pace; predictors are power, weight, P:W, hybrid, era. Compare logistic regression vs. tree models on a 50-car set.
+- **PU efficiency curves** — claimed thermal efficiency over the hybrid V6 decade against fuel-flow regs.
 - **Aero-vs-engine contribution** — decompose lap-time gains per era into aero share vs. powertrain share.
-- **Turbo-era power-per-liter analysis** — quantify how much of the 1988 MP4/4 advantage was raw hp and how much was efficiency-at-fuel-limit. (FIA capped race fuel to 150L in 1988, then 195L.)
-
-## Stack (when we start)
-
-```bash
-uv venv && source .venv/bin/activate
-uv pip install pandas numpy scikit-learn matplotlib
-```

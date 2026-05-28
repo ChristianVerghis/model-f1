@@ -1,5 +1,6 @@
 import { cars } from "@/data/cars";
 import { aeroEraSpans } from "@/data/regulations";
+import { carResults } from "@/data/results";
 import { CarGallery } from "./car-gallery";
 
 export default function Home() {
@@ -16,11 +17,15 @@ export default function Home() {
         <p className="mt-4 max-w-2xl text-zinc-600 dark:text-zinc-400">
           A growing dataset of era-defining F1 cars, from Fangio&apos;s Mercedes W196 to
           today&apos;s 1000+ hp hybrid ground-effect machines. Filter by era, constructor,
-          or hybrid status — or search anywhere in the description.
+          championship status — or search anywhere in the description.
+        </p>
+        <p className="mt-3 text-xs text-zinc-500 flex items-center gap-3">
+          <span className="flex items-center gap-1.5"><span className="text-amber-600 dark:text-amber-400">●</span> drivers&apos; title</span>
+          <span className="flex items-center gap-1.5"><span className="text-emerald-600 dark:text-emerald-400">●</span> constructors&apos; title</span>
         </p>
       </header>
 
-      <CarGallery cars={sorted} eras={aeroEraSpans} constructors={constructors} />
+      <CarGallery cars={sorted} eras={aeroEraSpans} constructors={constructors} results={carResults} />
     </main>
   );
 }
