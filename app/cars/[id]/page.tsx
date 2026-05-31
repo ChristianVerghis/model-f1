@@ -4,7 +4,9 @@ import { cars, getCarById, type Car } from "@/data/cars";
 import { aeroEraSpans, regulations } from "@/data/regulations";
 import { getResults } from "@/data/results";
 import { carRankInEra } from "@/lib/era-stats";
+import { buildComparison, inferredTireSupplier } from "@/lib/reg-compare";
 import { InEraRanks } from "./in-era-ranks";
+import { RegComparison } from "./reg-comparison";
 
 type Params = Promise<{ id: string }>;
 
@@ -65,6 +67,10 @@ export default async function CarPage({ params }: { params: Params }) {
   );
   const inEra = carRankInEra(car);
   const results = getResults(car.id);
+  const regComparison = buildComparison(car);
+  const trackedComparisons = regComparison.filter((r) => r.carValue !== undefined);
+  const violations2025 = regComparison.filter((r) => r.status2025 === "violates").length;
+  const tireGuess = inferredTireSupplier(car);
 
   const powerToWeight = +(car.enginePowerHp / car.weightKg).toFixed(3);
 
@@ -161,6 +167,39 @@ export default async function CarPage({ params }: { params: Params }) {
           )}
         </section>
       </div>
+
+      {trackedComparisons.length > 0 ? (
+        <section className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">
+          <div className="flex items-baseline justify-between mb-5">
+            <h2 className="text-sm font-medium uppercase tracking-wider text-zinc-500">
+              vs current FIA regulations
+            </h2>
+            <Link
+              href="/regulations"
+              className="text-xs uppercase tracking-wider text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
+            >
+              all current regs →
+            </Link>
+          </div>
+          {violations2025 > 0 ? (
+            <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+              <span className="text-rose-600 dark:text-rose-400 font-medium">{violations2025} {violations2025 === 1 ? "dimension violates" : "dimensions violate"}</span>{" "}
+              the 2025 FIA technical limits. This car couldn&apos;t race today without modification.
+            </p>
+          ) : (
+            <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
+              Within the 2025 FIA technical limits on every tracked dimension.
+            </p>
+          )}
+          <RegComparison rows={regComparison} />
+          {tireGuess ? (
+            <p className="mt-4 text-xs text-zinc-500">
+              Tires: <span className="text-zinc-700 dark:text-zinc-300">{tireGuess.value}</span>
+              {tireGuess.inferred ? " (inferred from era)" : ""}. Current regs: Pirelli (mono since 2011).
+            </p>
+          ) : null}
+        </section>
+      ) : null}
 
       {inEra && inEra.total > 1 ? (
         <section className="mt-12 pt-8 border-t border-zinc-200 dark:border-zinc-800">

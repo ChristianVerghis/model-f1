@@ -9,6 +9,14 @@ export type AeroEra =
 
 export type Monocoque = "aluminum-honeycomb" | "carbon-fiber";
 
+export type TireSupplier =
+  | "Dunlop"
+  | "Firestone"
+  | "Goodyear"
+  | "Michelin"
+  | "Bridgestone"
+  | "Pirelli";
+
 export type Car = {
   id: string;
   year: number;
@@ -25,7 +33,11 @@ export type Car = {
   // chassis
   monocoque?: Monocoque;
   wheelbaseMm?: number;
+  lengthMm?: number;
+  widthMm?: number;
+  heightMm?: number;
   fuelTankL?: number;
+  tireSupplier?: TireSupplier;
 
   // electronics
   activeSuspension?: boolean;
@@ -213,6 +225,8 @@ export const cars: Car[] = [
     hybrid: true,
     notable: "First car of the ground-effect-return regs. Verstappen runaway after early bouncing.",
     monocoque: "carbon-fiber",
+    widthMm: 2000,
+    wheelbaseMm: 3535,
     semiAutoGearbox: true,
     ers: true,
     mguKPowerKW: 120,
@@ -233,6 +247,8 @@ export const cars: Car[] = [
     hybrid: true,
     notable: "21 wins from 22 races. Most dominant single-season car in F1 history.",
     monocoque: "carbon-fiber",
+    widthMm: 2000,
+    wheelbaseMm: 3540,
     semiAutoGearbox: true,
     ers: true,
     mguKPowerKW: 120,
@@ -643,6 +659,8 @@ export const cars: Car[] = [
     notable:
       "Tire-degradation Achilles heel. Strong qualifying, lost races on Sunday. The chassis the SF-24 was a quiet retreat from.",
     monocoque: "carbon-fiber",
+    widthMm: 2000,
+    wheelbaseMm: 3530,
     semiAutoGearbox: true,
     ers: true,
     mguKPowerKW: 120,
@@ -664,6 +682,8 @@ export const cars: Car[] = [
     notable:
       "McLaren's first constructors' title since 1998. Mid-season upgrade in Miami flipped the order — the car that broke Red Bull's 2022-23 grip.",
     monocoque: "carbon-fiber",
+    widthMm: 2000,
+    wheelbaseMm: 3525,
     semiAutoGearbox: true,
     ers: true,
     mguKPowerKW: 120,
@@ -821,6 +841,8 @@ export const cars: Car[] = [
     notable:
       "The zero-pod gamble. Mercedes' second attempt at the ground-effect regs missed again — by mid-season they'd abandoned the concept. Hamilton's first winless season.",
     monocoque: "carbon-fiber",
+    widthMm: 2000,
+    wheelbaseMm: 3500,
     semiAutoGearbox: true,
     ers: true,
     mguKPowerKW: 120,

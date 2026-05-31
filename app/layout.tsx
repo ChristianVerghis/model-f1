@@ -56,6 +56,9 @@ export default function RootLayout({
               <Link href="/powerunits" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
                 Power units
               </Link>
+              <Link href="/regulations" className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100">
+                Regulations
+              </Link>
             </div>
           </div>
         </nav>
