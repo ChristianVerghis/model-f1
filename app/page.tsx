@@ -1,14 +1,14 @@
 import { cars } from "@/data/cars";
 import { aeroEraSpans } from "@/data/regulations";
 import { carResults } from "@/data/results";
-import { buildComparison } from "@/lib/reg-compare";
+import { totalViolations } from "@/lib/reg-compare";
 import { CarGallery } from "./car-gallery";
 
 export default function Home() {
   const sorted = [...cars].sort((a, b) => a.year - b.year);
   const constructors = [...new Set(cars.map((c) => c.constructor))].sort();
   const violations2025: Record<string, number> = Object.fromEntries(
-    cars.map((c) => [c.id, buildComparison(c).filter((r) => r.status2025 === "violates").length]),
+    cars.map((c) => [c.id, totalViolations(c, 2025)]),
   );
 
   return (

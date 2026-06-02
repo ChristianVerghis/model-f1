@@ -4,7 +4,7 @@ import { cars, getCarById, type Car } from "@/data/cars";
 import { aeroEraSpans, regulations } from "@/data/regulations";
 import { getResults } from "@/data/results";
 import { carRankInEra } from "@/lib/era-stats";
-import { buildComparison, inferredTireSupplier } from "@/lib/reg-compare";
+import { buildComparison, buildFeatureChecks, inferredTireSupplier } from "@/lib/reg-compare";
 import { InEraRanks } from "./in-era-ranks";
 import { RegComparison } from "./reg-comparison";
 
@@ -68,8 +68,11 @@ export default async function CarPage({ params }: { params: Params }) {
   const inEra = carRankInEra(car);
   const results = getResults(car.id);
   const regComparison = buildComparison(car);
+  const featureChecks = buildFeatureChecks(car);
   const trackedComparisons = regComparison.filter((r) => r.carValue !== undefined);
-  const violations2025 = regComparison.filter((r) => r.status2025 === "violates").length;
+  const violations2025 =
+    regComparison.filter((r) => r.status2025 === "violates").length +
+    featureChecks.filter((f) => f.status2025 === "violates").length;
   const tireGuess = inferredTireSupplier(car);
 
   const powerToWeight = +(car.enginePowerHp / car.weightKg).toFixed(3);
@@ -191,7 +194,7 @@ export default async function CarPage({ params }: { params: Params }) {
               Within the 2025 FIA technical limits on every tracked dimension.
             </p>
           )}
-          <RegComparison rows={regComparison} />
+          <RegComparison rows={regComparison} features={featureChecks} />
           {tireGuess ? (
             <p className="mt-4 text-xs text-zinc-500">
               Tires: <span className="text-zinc-700 dark:text-zinc-300">{tireGuess.value}</span>

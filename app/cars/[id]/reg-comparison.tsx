@@ -1,4 +1,4 @@
-import type { ComparisonRow } from "@/lib/reg-compare";
+import type { ComparisonRow, FeatureCheck } from "@/lib/reg-compare";
 
 function StatusDot({ status }: { status: ComparisonRow["status2025"] }) {
   if (status === "ok")
@@ -25,10 +25,10 @@ function DeltaCell({ delta, unit, kind }: { delta: number | null; unit: string; 
   return <span className={color}>{sign}{delta} {unit}</span>;
 }
 
-export function RegComparison({ rows }: { rows: ComparisonRow[] }) {
+export function RegComparison({ rows, features }: { rows: ComparisonRow[]; features: FeatureCheck[] }) {
   const tracked = rows.filter((r) => r.carValue !== undefined);
   const untracked = rows.filter((r) => r.carValue === undefined);
-  if (tracked.length === 0) {
+  if (tracked.length === 0 && features.length === 0) {
     return (
       <p className="text-sm text-zinc-500">
         No dimensions in the dataset overlap with the current FIA limits for this car yet. Try a modern era car.
@@ -83,6 +83,35 @@ export function RegComparison({ rows }: { rows: ComparisonRow[] }) {
         <p className="mt-4 text-xs text-zinc-500">
           Not in dataset for this car: {untracked.map((r) => r.meta.label).join(" · ")}
         </p>
+      ) : null}
+
+      {features.length > 0 ? (
+        <div className="mt-6">
+          <p className="text-xs uppercase tracking-wider text-zinc-500 mb-3">Required features</p>
+          <ul className="space-y-2">
+            {features.map((f) => (
+              <li
+                key={f.key}
+                className="grid grid-cols-12 gap-3 py-2 border-b border-zinc-100 dark:border-zinc-900 text-sm items-baseline"
+              >
+                <div className="col-span-6 flex items-baseline gap-2">
+                  <StatusDot status={f.status2025} />
+                  <span>{f.label}</span>
+                </div>
+                <span className="col-span-2 text-xs tabular-nums text-zinc-600 dark:text-zinc-400">
+                  {f.hasFeature ? "present" : "absent"}
+                </span>
+                <span className="col-span-2 text-xs text-zinc-500">
+                  2025: {f.requiredIn2025 ? "required" : "—"}
+                </span>
+                <span className="col-span-2 text-xs text-zinc-500">
+                  2026: {f.requiredIn2026 ? "required" : "—"}
+                </span>
+                <p className="col-span-12 text-xs text-zinc-500 -mt-1 ml-4">{f.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       ) : null}
     </div>
   );

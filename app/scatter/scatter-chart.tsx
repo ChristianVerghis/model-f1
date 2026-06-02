@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   CartesianGrid,
+  Label,
+  ReferenceLine,
   ResponsiveContainer,
   Scatter,
   ScatterChart,
@@ -48,12 +50,18 @@ type Metric = {
   label: string;
   unit: string;
   format: (v: number) => string;
+  reg2025?: number;
+  reg2026?: number;
+  regKind?: "min" | "max";
 };
 
 const metrics: Metric[] = [
   { key: "powerToWeight", label: "Power-to-weight", unit: "hp/kg", format: (v) => v.toFixed(2) },
   { key: "powerHp", label: "Engine power", unit: "hp", format: (v) => v.toFixed(0) },
-  { key: "weightKg", label: "Minimum weight", unit: "kg", format: (v) => v.toFixed(0) },
+  {
+    key: "weightKg", label: "Minimum weight", unit: "kg", format: (v) => v.toFixed(0),
+    reg2025: 800, reg2026: 768, regKind: "min",
+  },
   { key: "maxRpm", label: "Max RPM", unit: "rpm", format: (v) => v.toLocaleString() },
 ];
 
@@ -126,6 +134,36 @@ export function ScatterView({ points }: { points: ScatterPoint[] }) {
               label={{ value: `${metric.label} (${metric.unit})`, angle: -90, position: "insideLeft", fill: "#71717a", fontSize: 11 }}
             />
             <Tooltip content={<CarTooltip metric={metric} />} cursor={{ strokeDasharray: "3 3" }} />
+            {metric.reg2025 !== undefined ? (
+              <ReferenceLine
+                y={metric.reg2025}
+                stroke="#dc2626"
+                strokeDasharray="4 3"
+                strokeWidth={1.2}
+              >
+                <Label
+                  value={`2025 ${metric.regKind === "min" ? "min" : "max"}: ${metric.reg2025} ${metric.unit}`}
+                  position="insideTopLeft"
+                  fill="#dc2626"
+                  fontSize={10}
+                />
+              </ReferenceLine>
+            ) : null}
+            {metric.reg2026 !== undefined ? (
+              <ReferenceLine
+                y={metric.reg2026}
+                stroke="#10b981"
+                strokeDasharray="4 3"
+                strokeWidth={1.2}
+              >
+                <Label
+                  value={`2026 ${metric.regKind === "min" ? "min" : "max"}: ${metric.reg2026} ${metric.unit}`}
+                  position="insideBottomLeft"
+                  fill="#10b981"
+                  fontSize={10}
+                />
+              </ReferenceLine>
+            ) : null}
             {Object.entries(byEra).map(([era, eraPoints]) => (
               <Scatter
                 key={era}

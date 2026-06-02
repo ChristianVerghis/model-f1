@@ -52,6 +52,9 @@ export type Car = {
   batteryDeploymentMJ?: number;
   fuelFlowKgH?: number;
   maxRpm?: number;
+
+  // 2026+ regulations
+  activeAero?: boolean;
 };
 
 export const cars: Car[] = [
@@ -180,6 +183,7 @@ export const cars: Car[] = [
     engine: "Mercedes PU106A 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 760,
+    widthMm: 1800,
     weightKg: 691,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -200,6 +204,8 @@ export const cars: Car[] = [
     engine: "Mercedes M11 EQ Performance 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 1025,
+    widthMm: 2000,
+    wheelbaseMm: 3698,
     weightKg: 746,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -404,6 +410,8 @@ export const cars: Car[] = [
     engine: "Mercedes M09 EQ Power+ 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 945,
+    widthMm: 2000,
+    wheelbaseMm: 3726,
     weightKg: 733,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -425,6 +433,8 @@ export const cars: Car[] = [
     engine: "Honda RA621H 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 1010,
+    widthMm: 2000,
+    wheelbaseMm: 3473,
     weightKg: 752,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -532,6 +542,8 @@ export const cars: Car[] = [
     engine: "Mercedes M08 EQ Power+ 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 950,
+    widthMm: 2000,
+    wheelbaseMm: 3726,
     weightKg: 728,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -814,6 +826,8 @@ export const cars: Car[] = [
     engine: "Mercedes M12 E Performance 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 1015,
+    widthMm: 2000,
+    wheelbaseMm: 3700,
     weightKg: 752,
     aeroEra: "hybrid-v6",
     hybrid: true,
@@ -937,6 +951,7 @@ export const cars: Car[] = [
     engine: "Ferrari Tipo 059/3 1.6L V6 turbo hybrid",
     engineDisplacementL: 1.6,
     enginePowerHp: 680,
+    widthMm: 1800,
     weightKg: 691,
     aeroEra: "hybrid-v6",
     hybrid: true,
