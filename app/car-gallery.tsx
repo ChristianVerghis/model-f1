@@ -21,14 +21,16 @@ type Props = {
   eras: AeroEraSpan[];
   constructors: string[];
   results: Record<string, Result>;
+  violations2025: Record<string, number>;
 };
 
-export function CarGallery({ cars, eras, constructors, results }: Props) {
+export function CarGallery({ cars, eras, constructors, results, violations2025 }: Props) {
   const [query, setQuery] = useState("");
   const [era, setEra] = useState<string>("");
   const [constructor, setConstructor] = useState<string>("");
   const [hybridOnly, setHybridOnly] = useState(false);
   const [championsOnly, setChampionsOnly] = useState(false);
+  const [illegalOnly, setIllegalOnly] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -40,13 +42,14 @@ export function CarGallery({ cars, eras, constructors, results }: Props) {
         const r = results[c.id];
         if (!r || (!r.wonDrivers && !r.wonConstructors)) return false;
       }
+      if (illegalOnly && (violations2025[c.id] ?? 0) === 0) return false;
       if (q) {
         const hay = `${c.year} ${c.constructor} ${c.chassis} ${c.engine} ${c.notable}`.toLowerCase();
         if (!hay.includes(q)) return false;
       }
       return true;
     });
-  }, [cars, query, era, constructor, hybridOnly, championsOnly, results]);
+  }, [cars, query, era, constructor, hybridOnly, championsOnly, illegalOnly, results, violations2025]);
 
   const eraLabel = (key: string) =>
     eras.find((e) => e.era === key)?.label ?? key.replace(/-/g, " ");
@@ -57,8 +60,9 @@ export function CarGallery({ cars, eras, constructors, results }: Props) {
     setConstructor("");
     setHybridOnly(false);
     setChampionsOnly(false);
+    setIllegalOnly(false);
   };
-  const anyActive = query !== "" || era !== "" || constructor !== "" || hybridOnly || championsOnly;
+  const anyActive = query !== "" || era !== "" || constructor !== "" || hybridOnly || championsOnly || illegalOnly;
 
   return (
     <section>
@@ -105,7 +109,7 @@ export function CarGallery({ cars, eras, constructors, results }: Props) {
         </label>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-2">
         <label className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 cursor-pointer select-none">
           <input
             type="checkbox"
@@ -114,6 +118,15 @@ export function CarGallery({ cars, eras, constructors, results }: Props) {
             className="accent-zinc-900 dark:accent-zinc-100"
           />
           Champions only (WDC or WCC)
+        </label>
+        <label className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-zinc-500 cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={illegalOnly}
+            onChange={(e) => setIllegalOnly(e.target.checked)}
+            className="accent-zinc-900 dark:accent-zinc-100"
+          />
+          Would be illegal under 2025 regs
         </label>
       </div>
 
@@ -169,6 +182,14 @@ export function CarGallery({ cars, eras, constructors, results }: Props) {
                   >
                     {eraLabel(car.aeroEra)}
                   </span>
+                  {violations2025[car.id] > 0 ? (
+                    <span
+                      className="block mt-1 text-[10px] font-mono tabular-nums text-rose-600 dark:text-rose-400"
+                      title={`${violations2025[car.id]} dimensions violate 2025 FIA limits`}
+                    >
+                      {violations2025[car.id]} reg violation{violations2025[car.id] === 1 ? "" : "s"}
+                    </span>
+                  ) : null}
                 </div>
                 <p className="col-span-12 text-sm text-zinc-600 dark:text-zinc-400 mt-1">
                   {car.notable}
