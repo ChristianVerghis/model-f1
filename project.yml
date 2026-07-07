@@ -1,0 +1,19 @@
+# project.yml — dashboard manifest (auto-read by ~/dev/dashboard)
+name: model-f1
+kind: service
+status: dormant   # clean sprint completed; predictive layer (analysis/02) is the remaining capstone
+description: F1 car evolution study — 50 era-defining cars (1955-2024) as typed TS data, Next.js visualization layer (gallery, compare, eras, timeline, scatter, regulations), and a uv/Python analysis pipeline.
+repo: https://github.com/ChristianVerghis/model-f1
+port: 3081
+start: npm run dev -- -p 3081
+links:
+  - { label: "Open app →", href: "http://localhost:3081", primary: true }
+  - { label: "Timeline", href: "http://localhost:3081/timeline" }
+  - { label: "2026 regulations", href: "http://localhost:3081/regulations/2026" }
+  - { label: "GitHub", href: "https://github.com/ChristianVerghis/model-f1" }
+actions:
+  export-data: npm run export-data
+  typecheck: npx tsc --noEmit
+  lint: npm run lint
+  analysis-chart: uv run analysis/01_power_per_liter.py
+tags: [f1, dataset, visualization, nextjs, python, analysis]
