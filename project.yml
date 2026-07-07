@@ -17,3 +17,6 @@ actions:
   lint: npm run lint
   analysis-chart: uv run analysis/01_power_per_liter.py
 tags: [f1, dataset, visualization, nextjs, python, analysis]
+showcase:
+  kind: app
+  href: http://localhost:3081
